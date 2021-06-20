@@ -18,8 +18,6 @@ vendor/
 dist/
 
 # certs
-certs/ca.key
-certs/ca.crt
-certs/cert.crt
-certs/cert.key
-certs/dhparam.pem
+certs/*.pem
+certs/*.key
+certs/*.crt
