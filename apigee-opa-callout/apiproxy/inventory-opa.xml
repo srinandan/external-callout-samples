@@ -1,0 +1,21 @@
+<APIProxy revision="9" name="inventory-opa">
+    <DisplayName></DisplayName>
+    <Description></Description>
+    <CreatedAt>1623367129439</CreatedAt>
+    <LastModifiedAt>1623367129439</LastModifiedAt>
+    <BasePaths>/opa/items</BasePaths>
+    <Policies>
+        <Policy>Raise-OPA-Fault</Policy>
+        <Policy>Verify-JWT</Policy>
+        <Policy>Extract-OAuth</Policy>
+        <Policy>OPA-Callout</Policy>
+        <Policy>Create-OPA-Message</Policy>
+        <Policy>Create-Items-Message</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

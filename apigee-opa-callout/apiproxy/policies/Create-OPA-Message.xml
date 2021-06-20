@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="Create-OPA-Message">
+    <DisplayName>Create OPA Message</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Accept">application/json</Header>
+        </Headers>
+        <Verb>POST</Verb>
+        <Payload contentType="application/json" variablePrefix="@" variableSuffix="#">
+              {
+                "path": "@proxy.basepath#",
+                "method": "@message.verb#",
+                "developer_email": "@jwt.Verify-JWT.decoded.claim.developer_email#"
+              }
+            </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="true" transport="http" type="request"/>
+</AssignMessage>
