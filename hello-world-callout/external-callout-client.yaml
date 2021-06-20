@@ -1,0 +1,89 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-callout-client
+  labels:
+    app: external-callout-client
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: external-callout-client
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-callout-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: external-callout-client
+  template:
+    metadata:
+      annotations:
+        readiness.status.sidecar.istio.io/applicationPorts: '8080'
+        readiness.status.sidecar.istio.io/initialDelaySeconds: '20'
+        sidecar.istio.io/rewriteAppHTTPProbers: 'true'
+      labels:
+        app: external-callout-client
+        version: v1
+        managed-by: apigee
+    spec:
+      serviceAccountName: apps    
+      containers:
+      - image: gcr.io/$PROJECT_ID/external-callout-client
+        imagePullPolicy: IfNotPresent
+        name: external-callout-client
+        env:
+          - name: EXT_CALLOUT_SVC
+            value: "external-callout.apps.svc.cluster.local:50051"
+        ports:
+        - containerPort: 8080
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 20001
+          runAsGroup: 20000
+          allowPrivilegeEscalation: false
+          capabilities:
+            # https://istio.io/latest/docs/ops/deployment/requirements/
+            add:
+              - NET_ADMIN
+              - NET_RAW
+            drop:
+              - ALL
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            ephemeral-storage: 5000Ki
+            cpu: 50m
+            memory: 128Mi
+      #serviceAccount: app-sa
+      #serviceAccountName: app-sa  
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: cloud.google.com/gke-nodepool
+                operator: In
+                values:
+                - apps
+            weight: 100

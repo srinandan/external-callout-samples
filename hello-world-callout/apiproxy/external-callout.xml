@@ -1,0 +1,16 @@
+<APIProxy revision="3" name="external-callout">
+    <DisplayName></DisplayName>
+    <Description></Description>
+    <CreatedAt>1619140382940</CreatedAt>
+    <LastModifiedAt>1619140382940</LastModifiedAt>
+    <BasePaths>/external</BasePaths>
+    <Policies>
+        <Policy>ExternalCallout</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources></Resources>
+    <TargetServers></TargetServers>
+    <TargetEndpoints></TargetEndpoints>
+</APIProxy>
