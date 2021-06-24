@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExternalCallout continueOnError="false" enabled="true" name="LDAP-Callout">
+    <DisplayName>LDAP Callout</DisplayName>
+    <GrpcConnection>
+        <Server name="ldap-server"/>
+    </GrpcConnection>
+    <TimeoutMs>5000</TimeoutMs>
+    <Configurations>
+        <Property name="with.request.content">true</Property>
+        <Property name="with.request.headers">true</Property>
+    </Configurations>
+</ExternalCallout>

@@ -1,0 +1,20 @@
+<APIProxy revision="1" name="apigee-ldap">
+    <DisplayName></DisplayName>
+    <Description></Description>
+    <CreatedAt>1624556903554</CreatedAt>
+    <LastModifiedAt>1624560194802</LastModifiedAt>
+    <BasePaths>/ldap</BasePaths>
+    <Policies>
+        <Policy>Decode-Auth</Policy>
+        <Policy>Unauthorized-Access</Policy>
+        <Policy>LDAP-Callout</Policy>
+        <Policy>Create-Mocktarget-Message</Policy>
+        <Policy>Create-LDAP-Message</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

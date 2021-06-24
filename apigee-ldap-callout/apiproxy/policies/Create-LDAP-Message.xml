@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="Create-LDAP-Message">
+    <DisplayName>Create LDAP Message</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Accept">application/json</Header>
+        </Headers>
+        <Verb>POST</Verb>
+        <Payload contentType="application/json" variablePrefix="@" variableSuffix="#">
+{
+"ldapAuthRequest": {
+    "username":"@username#",
+    "password":"@password#"
+  }
+}
+            </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="true" transport="http" type="request"/>
+</AssignMessage>

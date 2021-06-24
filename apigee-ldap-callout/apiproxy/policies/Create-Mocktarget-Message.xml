@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="Create-Mocktarget-Message">
+    <DisplayName>Create Mocktarget Message</DisplayName>
+    <Properties/>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Accept">application/json</Header>
+        </Headers>
+        <Verb>GET</Verb>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>
