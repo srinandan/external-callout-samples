@@ -34,7 +34,7 @@ deploy:
     manifests:
     - namespace.yaml
     - serviceaccount.yaml
-    - apigee-opa-callout-server.yaml
+    - apigee-ldap-callout-server.yaml
     - openldap.yaml
 # "gcb" profile allows building and pushing the images
 # on Google Container Builder without requiring docker

@@ -52,10 +52,10 @@ spec:
           - name: DEBUG
             value: "false"
           - name: LDAP_HOST
-            value: "ldap://openldap.apps.default.svc.cluster.local:389"
+            value: "ldap://openldap.apps.svc.cluster.local:389"
           # change the following values to read from a kubernetes secret 
           - name: LDAP_BIND_USER
-            value: "readonly"
+            value: "cn=readonly,dc=example,dc=org"
           - name: LDAP_BIND_PASSWD
             value: "passwr0rd!"              
         securityContext:

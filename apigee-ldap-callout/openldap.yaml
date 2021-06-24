@@ -22,8 +22,6 @@ spec:
   ports:
   - port: 389
     name: ldap
-  - port: 636
-    name: ldaps
   selector:
     app: openldap
 ---
@@ -50,23 +48,6 @@ spec:
         name: openldap
         ports:
         - containerPort: 389
-        - containerPort: 636
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 20001
-          runAsGroup: 20000
-          allowPrivilegeEscalation: false
-          capabilities:
-            # https://istio.io/latest/docs/ops/deployment/requirements/
-            add:
-              - NET_ADMIN
-              - NET_RAW
-            drop:
-              - ALL
-        resources:
-          requests:
-            cpu: 50m
-            memory: 256Mi
       #serviceAccount: app-sa
       #serviceAccountName: app-sa  
       affinity:
