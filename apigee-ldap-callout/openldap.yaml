@@ -15,49 +15,42 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: apigee-ldap-callout
+  name: openldap
   labels:
-    app: apigee-ldap-callout
+    app: openldap
 spec:
   ports:
-  - port: 50051
-    name: grpc
+  - port: 389
+    name: ldap
+  - port: 636
+    name: ldaps
   selector:
-    app: apigee-ldap-callout
+    app: openldap
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: apigee-ldap-callout
+  name: openldap
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: apigee-ldap-callout  
+      app: openldap
   template:
     metadata:
       labels:
-        app: apigee-ldap-callout
+        app: openldap
         version: v1
         managed-by: apigee       
     spec:
       serviceAccountName: apps    
       containers:
-      - image: apigee-ldap-callout
+      - image: openldap
         imagePullPolicy: Always
-        name: apigee-ldap-callout
+        name: openldap
         ports:
-        - containerPort: 50051
-        env:
-          - name: DEBUG
-            value: "false"
-          - name: LDAP_HOST
-            value: "ldap://openldap.apps.default.svc.cluster.local:389"
-          # change the following values to read from a kubernetes secret 
-          - name: LDAP_BIND_USER
-            value: "readonly"
-          - name: LDAP_BIND_PASSWD
-            value: "passwr0rd!"              
+        - containerPort: 389
+        - containerPort: 636
         securityContext:
           runAsNonRoot: true
           runAsUser: 20001
@@ -73,11 +66,7 @@ spec:
         resources:
           requests:
             cpu: 50m
-            memory: 128Mi
-          limits:
-            ephemeral-storage: 5000Ki
-            cpu: 50m
-            memory: 128Mi            
+            memory: 256Mi
       #serviceAccount: app-sa
       #serviceAccountName: app-sa  
       affinity:

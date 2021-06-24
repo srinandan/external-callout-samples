@@ -16,11 +16,15 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:      
-  - image: apigee-opa-callout
+  - image: apigee-ldap-callout
     docker:
       cacheFrom: 
         - golang:latest
-        - alpine:latest
+        - alpine:latest    
+      dockerfile: ./Dockerfile.server
+  - image: openldap
+    docker:
+      dockerfile: ./Dockerfile.ldap      
   tagPolicy:
       gitCommit: {} 
 deploy:
@@ -31,6 +35,7 @@ deploy:
     - namespace.yaml
     - serviceaccount.yaml
     - apigee-opa-callout-server.yaml
+    - openldap.yaml
 # "gcb" profile allows building and pushing the images
 # on Google Container Builder without requiring docker
 # installed on the developer machine. However, note that
