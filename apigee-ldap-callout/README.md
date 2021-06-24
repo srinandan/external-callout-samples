@@ -80,13 +80,47 @@ curl localhost:8080/processmessage -H "Content-Type: application/json" -d '{"lda
 
 ## Setup
 
-Build and deploy the External callout service
+1. Build and deploy the External callout service
 
 ```sh
 skaffold run -p gcb --default-repo=gcr.io/xxx -f skaffold-apigee-ldap.yaml
 ```
 
-Deploy the API Proxy included [here](./apiproxy)
+2. Deploy the API Proxy included [here](./apiproxy)
+
+3. Create the targe server
+
+4. To test the setup (invalid creds),
+
+```sh
+curl https://api.acme.com/ldap -u test:test -v
+
+...
+< HTTP/2 403
+< content-length: 115
+< date: Thu, 24 Jun 2021 19:28:31 GMT
+< server: istio-envoy
+<
+
+{
+    "error":"authentication_error",
+    "error_description": "username or password did not match"
+}
+```
+
+5. To test the setup (valid creds),
+
+```sh
+curl https://api.acme.com/ldap -u billy:test -v
+
+...
+< via: 1.1 google
+< alt-svc: clear
+< server: istio-envoy
+<
+
+Hello, Guest!
+```
 
 ___
 
