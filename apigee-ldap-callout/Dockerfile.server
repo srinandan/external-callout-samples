@@ -1,5 +1,4 @@
 FROM golang:latest as builder
-ADD ./api /go/src/apigee-ldap-callout/api
 ADD ./cmd/server /go/src/apigee-ldap-callout/cmd/server
 ADD ./pkg /go/src/apigee-ldap-callout/pkg
 ADD go.mod /go/src/apigee-ldap-callout
