@@ -1,3 +1,5 @@
+# needed only for cloud build
+
 FROM golang:latest as builder
 ADD ./cmd/server /go/src/apigee-opa-callout/cmd/server
 ADD ./pkg /go/src/apigee-opa-callout/pkg
@@ -17,13 +19,14 @@ RUN apk --update add ca-certificates
 
 FROM scratch
 WORKDIR /
-# needed only for cloud build
-COPY ./samples/policy.rego /config/policy.rego
+
+COPY ./samples/policy.rego .
 
 COPY --from=builder /go/bin/apigee-opa-callout .
 COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 USER 20001
+ENV GRPC_PORT=8080
 ENV PORT=8080
 EXPOSE 8080
-ENTRYPOINT ["/apigee-opa-callout"]
+CMD ["/apigee-opa-callout", "--regopath=policy.rego"]
