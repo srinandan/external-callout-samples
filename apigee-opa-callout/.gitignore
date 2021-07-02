@@ -20,3 +20,4 @@ dist/
 
 #keys for envoy
 remote-service.*
+*.zip

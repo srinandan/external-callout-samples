@@ -63,7 +63,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := grpc.RunServer(common.GetgRPCPort()); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = common.GetgRPCPort()
+		common.Info.Printf("Defaulting to port %s", port)
+	}
+
+	if err := grpc.RunServer(port); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
