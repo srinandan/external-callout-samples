@@ -12,16 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# gcloud builds submit 
+
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/external-callout', '-f', 'Dockerfile.server', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/external-callout', '-f', 'Dockerfile.cb', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/external-callout']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', 'external-callout', '--image', 'gcr.io/$PROJECT_ID/external-callout', '--region', 'us-west1', '--platform', 'managed']
+  args: ['run', 'deploy', 'external-callout', '--image', 'gcr.io/$PROJECT_ID/external-callout', '--use-http2', '--region', 'us-west1', '--platform', 'managed']
+
 images:
-- gcr.io/$PROJECT_ID/external-callout
+  - gcr.io/$PROJECT_ID/external-callout
+
+options:
+  env: ["DEBUG=true"]
+  machineType: N1_HIGHCPU_8

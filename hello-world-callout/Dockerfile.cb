@@ -1,0 +1,29 @@
+FROM golang:latest as builder
+ADD ./api /go/src/external-callout/api
+ADD ./cmd/server /go/src/external-callout/cmd/server
+ADD ./pkg /go/src/external-callout/pkg
+ADD go.mod /go/src/external-callout
+ADD go.sum /go/src/external-callout
+
+WORKDIR /go/src/external-callout
+
+RUN groupadd -r -g 20000 app && useradd -M -u 20001 -g 0 -r -c "Default app user" app && chown -R 20001:0 /go
+ENV GO111MODULE=on
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -a -ldflags='-s -w -extldflags "-static"' -o /go/bin/external-callout /go/src/external-callout/cmd/server/main.go
+
+#without these certificates, we cannot verify the JWT token
+FROM alpine:latest as certs
+RUN apk --update add ca-certificates
+
+FROM scratch
+WORKDIR /
+COPY --from=builder /go/bin/external-callout .
+COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
+COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+USER 20001
+ENV GRPC_PORT=8080
+ENV PORT=8080
+EXPOSE 8080
+
+CMD ["./external-callout"]
