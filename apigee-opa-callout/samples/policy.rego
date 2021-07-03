@@ -5,9 +5,12 @@ import input
 default allow = false
 
 developers = {
-    "apps@sample.com": {
-        "/opa/items": {"GET"},
+    "apps@samples.com": {
+        "/opa/items": ["GET", "POST"]
     },
+    "test@samples.com": {
+        "/foo": ["GET"]
+    }
 }
 
 allow {

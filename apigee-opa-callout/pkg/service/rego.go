@@ -30,6 +30,7 @@ func ReadRegoFile(regoFilePath string) (err error) {
 		common.Error.Println("Rego file was not found")
 		return err
 	}
+	common.Info.Println(string(module))
 	return prepareForEvaluate(string(module))
 }
 
