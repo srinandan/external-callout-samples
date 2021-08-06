@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ProxyEndpoint name="default">
-    <PreFlow name="PreFlow">
-        <Request>
-        </Request>
-        <Response>
-            <Step>
-                <Name>ExternalCallout</Name>
-            </Step>
-        </Response>
-    </PreFlow>
-    <Flows/>
-    <PostFlow name="PostFlow">
-        <Request/>
-        <Response/>
-    </PostFlow>
-    <HTTPProxyConnection>
-        <BasePath>/external</BasePath>
-    </HTTPProxyConnection>
-    <RouteRule name="noroute"/>
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>EC-Hello</Name>
+      </Step>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <Flows/>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+  <HTTPProxyConnection>
+    <BasePath>/external-callout</BasePath>
+  </HTTPProxyConnection>
+  <RouteRule name="noroute"/>
 </ProxyEndpoint>
