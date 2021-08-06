@@ -88,7 +88,21 @@ skaffold run -p gcb --default-repo=gcr.io/xxx -f skaffold-apigee-ldap.yaml
 
 2. Deploy the API Proxy included [here](./apiproxy)
 
-3. Create the targe server
+3. Create the target server
+
+```sh
+auth="Authorization: Bearer $(gcloud auth print-access-token)"
+
+curl "https://apigee.googleapis.com/v1/organizations/$ORG/environments/$ENV/targetservers" -X POST -H $auth -H "Content-Type: application/json" --data-raw '{
+  "name": "grpcserver",
+  "host": "HOSTNAME",
+  "port": 50051,
+  "isEnabled": true,
+  "protocol": "GRPC",
+  "sSLInfo": {
+      "enabled": false
+  }
+}'
 
 4. To test the setup (invalid creds),
 

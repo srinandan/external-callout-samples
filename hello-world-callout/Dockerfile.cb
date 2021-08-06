@@ -1,5 +1,4 @@
 FROM golang:latest as builder
-ADD ./api /go/src/external-callout/api
 ADD ./cmd/server /go/src/external-callout/cmd/server
 ADD ./pkg /go/src/external-callout/pkg
 ADD go.mod /go/src/external-callout
