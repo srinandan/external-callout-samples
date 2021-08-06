@@ -16,6 +16,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	apigee "github.com/srinandan/external-callout-samples/hello-world-callout/pkg/apigee"
 )
@@ -33,6 +34,12 @@ func (c *ExternalCalloutServiceServer) ProcessMessage(ctx context.Context, req *
 
 	response := apigee.Response{}
 	response.Content = "hello world!"
+
+	// add in a timestamp
+	s := apigee.Strings{}
+	s.Strings = []string{time.Now().Format(time.RFC3339)}
+	response.Headers = make(map[string]*apigee.Strings)
+	response.Headers["stamp"] = &s
 
 	req.Response = &response
 
