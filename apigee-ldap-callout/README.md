@@ -94,7 +94,7 @@ skaffold run -p gcb --default-repo=gcr.io/xxx -f skaffold-apigee-ldap.yaml
 auth="Authorization: Bearer $(gcloud auth print-access-token)"
 
 curl "https://apigee.googleapis.com/v1/organizations/$ORG/environments/$ENV/targetservers" -X POST -H $auth -H "Content-Type: application/json" --data-raw '{
-  "name": "grpcserver",
+  "name": "ldap-server",
   "host": "HOSTNAME",
   "port": 50051,
   "isEnabled": true,
